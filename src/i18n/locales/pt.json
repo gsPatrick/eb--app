@@ -186,7 +186,19 @@
     "emptyTitle": "Nenhum serviço concluído",
     "emptySubtitle": "Quando você finalizar limpezas, elas aparecerão aqui.",
     "notFound": "Serviço não encontrado.",
-    "noPhotos": "Nenhuma foto registrada neste serviço."
+    "noPhotos": "Nenhuma foto registrada neste serviço.",
+    "viewDetails": "Ver detalhes",
+    "backToList": "Voltar ao histórico",
+    "client": "Cliente",
+    "locations": "Localizações",
+    "propertyLocation": "Local do imóvel",
+    "checkInLocation": "Check-in (GPS)",
+    "checkOutLocation": "Check-out (GPS)",
+    "extrasPerformed": "Serviços extras realizados"
+  },
+  "location": {
+    "coordinates": "Coordenadas",
+    "unknownAddress": "Endereço não identificado"
   },
   "inventory": {
     "title": "Inventário de Campo",

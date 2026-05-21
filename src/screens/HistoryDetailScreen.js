@@ -12,23 +12,20 @@ import { useTranslation } from 'react-i18next';
 import { ChevronLeft, X } from 'lucide-react-native';
 import Badge from '../components/atoms/Badge';
 import EBText from '../components/atoms/Text';
+import LocationRow from '../components/molecules/LocationRow';
 import { useApi } from '../hooks/useApi';
 import { useFormatters } from '../hooks/useFormatters';
 import * as ordersApi from '../api/orders';
 import { colors, radius, shadows, spacing } from '../theme/variables';
 
 export default function HistoryDetailScreen({ route, navigation }) {
-  const { orderId, order: initialOrder } = route.params;
+  const { orderId } = route.params;
   const { t } = useTranslation();
   const { formatCurrency, formatDate, getOrderStatusLabel, getOrderStatusVariant } = useFormatters();
   const [previewUri, setPreviewUri] = useState(null);
 
-  const fetchOrder = useCallback(async () => {
-    if (initialOrder) return initialOrder;
-    return ordersApi.getById(orderId);
-  }, [orderId, initialOrder]);
-
-  const { data: order, loading } = useApi(fetchOrder, [orderId], { initialData: initialOrder });
+  const fetchOrder = useCallback(() => ordersApi.getById(orderId), [orderId]);
+  const { data: order, loading } = useApi(fetchOrder, [orderId]);
 
   if (loading && !order) {
     return (
@@ -63,13 +60,13 @@ export default function HistoryDetailScreen({ route, navigation }) {
         <Pressable onPress={() => navigation.goBack()} style={styles.backBtn}>
           <ChevronLeft size={20} color={colors.primary} />
           <EBText variant="caption" color="brand">
-            {t('common.back')}
+            {t('history.backToList')}
           </EBText>
         </Pressable>
 
         <View style={styles.card}>
           <View style={styles.header}>
-            <EBText variant="title" color="brand">
+            <EBText variant="title" color="brand" style={styles.flex}>
               {order.property}
             </EBText>
             <Badge variant={getOrderStatusVariant(order.status)}>
@@ -78,6 +75,9 @@ export default function HistoryDetailScreen({ route, navigation }) {
           </View>
           <EBText variant="caption" color="secondary" style={styles.address}>
             {order.propertyAddress}
+          </EBText>
+          <EBText variant="caption" color="secondary" style={styles.client}>
+            {t('history.client')}: {order.client}
           </EBText>
           <View style={styles.metaRow}>
             <EBText variant="caption" color="secondary">
@@ -88,6 +88,40 @@ export default function HistoryDetailScreen({ route, navigation }) {
             </EBText>
           </View>
         </View>
+
+        <View style={styles.section}>
+          <EBText variant="heading" style={styles.sectionTitle}>
+            {t('history.locations')}
+          </EBText>
+          <LocationRow
+            title={t('history.propertyLocation')}
+            latitude={order.propertyLat}
+            longitude={order.propertyLong}
+          />
+          <LocationRow
+            title={t('history.checkInLocation')}
+            latitude={order.checkinLat}
+            longitude={order.checkinLong}
+          />
+          <LocationRow
+            title={t('history.checkOutLocation')}
+            latitude={order.checkoutLat}
+            longitude={order.checkoutLong}
+          />
+        </View>
+
+        {order.extras?.length ? (
+          <View style={styles.section}>
+            <EBText variant="heading" style={styles.sectionTitle}>
+              {t('history.extrasPerformed')}
+            </EBText>
+            {order.extras.map((extra) => (
+              <EBText key={extra.id || extra.extraId} variant="body" color="secondary" style={styles.extraItem}>
+                • {extra.name} · {formatCurrency(extra.defaultPrice)}
+              </EBText>
+            ))}
+          </View>
+        ) : null}
 
         {order.beforePhotos?.length ? (
           <View style={styles.section}>
@@ -140,19 +174,20 @@ export default function HistoryDetailScreen({ route, navigation }) {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.bg },
-  container: { padding: spacing.xxl, paddingBottom: 120 },
-  backBtn: { flexDirection: 'row', alignItems: 'center', gap: 4, marginBottom: spacing.lg },
+  container: { padding: spacing.xxl, paddingBottom: 120, gap: spacing.lg },
+  backBtn: { flexDirection: 'row', alignItems: 'center', gap: 4 },
   card: {
     backgroundColor: colors.bgElevated,
     borderRadius: radius.xl,
     padding: spacing.xxl,
-    marginBottom: spacing.xl,
     ...shadows.card,
     borderWidth: 1,
     borderColor: colors.border,
   },
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', gap: spacing.md },
+  flex: { flex: 1 },
   address: { marginTop: spacing.sm, lineHeight: 20 },
+  client: { marginTop: spacing.xs },
   metaRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -162,8 +197,9 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: colors.border,
   },
-  section: { marginBottom: spacing.xl },
-  sectionTitle: { marginBottom: spacing.md },
+  section: { gap: spacing.md },
+  sectionTitle: { marginBottom: spacing.xs },
+  extraItem: { lineHeight: 22 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
   thumb: {
     width: 104,
@@ -171,7 +207,7 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
     backgroundColor: colors.bgMuted,
   },
-  noPhotos: { textAlign: 'center', marginTop: spacing.xl },
+  noPhotos: { textAlign: 'center', marginTop: spacing.md },
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(8, 37, 103, 0.92)',

@@ -8,18 +8,8 @@ export async function list(params = {}) {
 }
 
 export async function getById(id) {
-  const statuses = [undefined, 'completed', 'billed'];
-  for (const status of statuses) {
-    const params = { limit: 100 };
-    if (status) params.status = status;
-    const { items } = await list(params);
-    const order = items.find((item) => item.id === id);
-    if (order) return order;
-  }
-
-  const err = new Error('ORDER_NOT_FOUND');
-  err.code = 'ORDER_NOT_FOUND';
-  throw err;
+  const response = await apiClient.get(`/service-orders/${id}`);
+  return mapServiceOrder(unwrapResponse(response).order);
 }
 
 function buildOrderFormData({ lat, long, photos = [] }) {

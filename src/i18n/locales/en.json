@@ -184,7 +184,19 @@
     "emptyTitle": "No completed services",
     "emptySubtitle": "When you finish cleanings, they will appear here.",
     "notFound": "Service not found.",
-    "noPhotos": "No photos recorded for this service."
+    "noPhotos": "No photos recorded for this service.",
+    "viewDetails": "View details",
+    "backToList": "Back to history",
+    "client": "Client",
+    "locations": "Locations",
+    "propertyLocation": "Property location",
+    "checkInLocation": "Check-in (GPS)",
+    "checkOutLocation": "Check-out (GPS)",
+    "extrasPerformed": "Extra services performed"
+  },
+  "location": {
+    "coordinates": "Coordinates",
+    "unknownAddress": "Address not identified"
   },
   "inventory": {
     "title": "Field Inventory",

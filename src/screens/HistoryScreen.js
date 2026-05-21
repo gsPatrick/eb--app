@@ -87,7 +87,7 @@ export default function HistoryScreen({ navigation }) {
         renderItem={({ item }) => (
           <HistoryOrderCard
             order={item}
-            onPress={() => navigation.navigate('HistoryDetail', { orderId: item.id, order: item })}
+            onPress={() => navigation.navigate('HistoryDetail', { orderId: item.id })}
           />
         )}
       />
