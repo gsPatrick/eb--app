@@ -1,0 +1,243 @@
+{
+  "common": {
+    "loading": "Loading…",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "back": "Back",
+    "client": "Client",
+    "total": "Total",
+    "before": "Before",
+    "after": "After",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "tabs": {
+    "schedule": "Schedule",
+    "history": "History",
+    "profile": "Profile"
+  },
+  "splash": { "tagline": "Services · Provider" },
+  "onboarding": {
+    "slide1Title": "Precision GPS",
+    "slide1Subtitle": "Check-in validated within 200 m of the property. EB Services contract rigor.",
+    "slide2Title": "Visual proof",
+    "slide2Subtitle": "Professional before and after photos. Total client trust.",
+    "slide3Title": "Field management",
+    "slide3Subtitle": "Schedule, inventory and execution in one place. Cutting-edge technology.",
+    "next": "Next",
+    "start": "Get started"
+  },
+  "auth": {
+    "brandBadge": "Mobile app · Provider",
+    "brandTagline": "Field execution with GPS, photos and daily schedule",
+    "languageLabel": "Language",
+    "providerOnlyNote": "This app is exclusively for EB service providers.",
+    "intro": {
+      "title": "Professional cleaning in your pocket",
+      "subtitle": "Schedule, GPS and visual proof in an app built for EB providers.",
+      "feature1": "GPS check-in validated within 200 m",
+      "feature2": "Before and after photos with professional quality",
+      "feature3": "Daily schedule and inventory in one place",
+      "continue": "Continue"
+    },
+    "choice": {
+      "title": "How would you like to continue?",
+      "subtitle": "Sign in to your account or create your provider registration.",
+      "hasAccount": "I already have an account",
+      "createAccount": "I want to register"
+    },
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Enter your email and password to access your schedule",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign in",
+      "emailRequired": "Enter your email.",
+      "emailInvalid": "Invalid email.",
+      "passwordRequired": "Enter your password.",
+      "providerOnly": "This app is for service providers only.",
+      "failed": "Login failed",
+      "noAccount": "Don't have an account?",
+      "registerLink": "Register as provider",
+      "forgotPassword": "Forgot password?"
+    },
+    "forgotPassword": {
+      "title": "Reset password",
+      "subtitle": "Enter your provider account email to receive the code",
+      "email": "Email",
+      "submit": "Send code",
+      "emailRequired": "Enter your email.",
+      "emailInvalid": "Invalid email.",
+      "failed": "Could not send the code.",
+      "otpTitle": "Enter the code",
+      "otpSubtitle": "We sent a 5-digit code to {{email}}",
+      "otpRequired": "Enter all 5 digits.",
+      "otpSubmit": "Verify code",
+      "otpFailed": "Invalid or expired code.",
+      "resendCode": "Resend code",
+      "resetTitle": "New password",
+      "resetSubtitle": "Create a new password to access your account",
+      "newPassword": "New password",
+      "confirmPassword": "Confirm new password",
+      "passwordRequired": "Enter the new password.",
+      "passwordMinLength": "Password must be at least 8 characters.",
+      "confirmPasswordMismatch": "Passwords do not match.",
+      "resetSubmit": "Reset password",
+      "resetFailed": "Could not reset password.",
+      "successTitle": "Password reset",
+      "successMessage": "Your password was updated. Sign in with your new password."
+    },
+    "register": {
+      "title": "Let's create your account",
+      "subtitle": "Fill in your details to register as an EB provider",
+      "fullName": "Full name",
+      "email": "Email",
+      "phone": "Phone",
+      "phoneOptional": "optional",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "terms": "I accept the EB Services terms of use",
+      "termsRequired": "Accept the terms to continue.",
+      "submit": "Create account",
+      "nameRequired": "Enter your name.",
+      "emailRequired": "Enter your email.",
+      "emailInvalid": "Invalid email.",
+      "passwordRequired": "Enter your password.",
+      "passwordMinLength": "Password must be at least 8 characters.",
+      "confirmPasswordMismatch": "Passwords do not match.",
+      "successTitle": "Account created",
+      "successMessage": "Registration received! Wait for account activation before signing in.",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Sign in",
+      "failed": "Registration failed"
+    }
+  },
+  "permissions": {
+    "title": "Required permissions",
+    "subtitle": "To ensure operational rigor and proof of execution, we need access to the resources below.",
+    "locationTitle": "Precise location",
+    "locationDesc": "We validate you are within 200 m of the property before check-in. Essential for the EB contract.",
+    "cameraTitle": "Camera and photos",
+    "cameraDesc": "Record visual proof before and after each cleaning. The client needs to trust the service.",
+    "denied": "We need location and camera access to execute service orders.",
+    "submit": "Authorize and continue"
+  },
+  "schedule": {
+    "title": "Today's Schedule",
+    "subtitle": "Cleanings assigned for today · Tap to start execution",
+    "emptyTitle": "No orders for today",
+    "emptySubtitle": "When cleanings are scheduled, they will appear here.",
+    "openMaps": "Get directions",
+    "continue": "Continue",
+    "start": "Start"
+  },
+  "execution": {
+    "notFound": "Service order not found.",
+    "backToSchedule": "Back to schedule",
+    "sections": {
+      "status": "Status",
+      "location": "Location",
+      "service": "Service",
+      "action": "Current step"
+    },
+    "geofenceRadius": "Allowed radius",
+    "gpsValidation": "GPS validation",
+    "gpsPending": "GPS not validated yet",
+    "scheduledFor": "Scheduled",
+    "stepOf": "Step {{current}} of {{total}}",
+    "step1Title": "Check-in & location",
+    "step1Hint": "Validate your proximity to the property before starting the cleaning.",
+    "startCleaning": "Start cleaning",
+    "validatingLocation": "Validating location…",
+    "locationValidated": "Location confirmed",
+    "gpsCoords": "GPS: {{lat}}, {{lng}}",
+    "step2Title": "Visual proof — Before",
+    "step2Hint": "Take at least 1 photo of the initial property state.",
+    "takePhoto": "Take photo",
+    "pickGallery": "Gallery",
+    "photosRequired": "Add at least one before photo.",
+    "submitCheckIn": "Submit check-in",
+    "step3Title": "Extra services",
+    "step3Hint": "Mark additional services performed during this cleaning.",
+    "step4Title": "Check-out & After",
+    "step4Hint": "Finish with result photos and GPS validation.",
+    "afterPhotosRequired": "Add at least one after photo.",
+    "completeService": "Complete service",
+    "geofenceTitle": "Outside allowed area",
+    "geofenceDescription": "You must be within {{radius}} m of the property.",
+    "geofenceDistance": "Current distance: {{distance}} m",
+    "geofenceDismiss": "Got it",
+    "checkInSuccess": "Check-in completed",
+    "checkOutSuccess": "Service completed",
+    "offlineSaved": "No connection",
+    "offlineSavedMessage": "Your data was saved and will sync automatically when signal returns."
+  },
+  "history": {
+    "title": "History",
+    "subtitle": "Completed services and accumulated earnings",
+    "totalEarned": "Total earned",
+    "completedCount": "{{count}} completed service(s)",
+    "basePlusExtras": "Base + extras",
+    "photoCount": "{{count}} photo(s)",
+    "emptyTitle": "No completed services",
+    "emptySubtitle": "When you finish cleanings, they will appear here.",
+    "notFound": "Service not found.",
+    "noPhotos": "No photos recorded for this service."
+  },
+  "inventory": {
+    "title": "Field Inventory",
+    "subtitle": "Products at properties you service",
+    "quantityLabel": "{{quantity}} {{unit}} · min. {{min}}",
+    "criticalAlert": "{{count}} item(s) at critical stock — restock urgently",
+    "emptyTitle": "Empty inventory",
+    "emptySubtitle": "When products are registered at your properties, they will appear here.",
+    "status": { "ok": "OK", "low": "Low", "critical": "Critical" },
+    "save": "Save",
+    "updateError": "Could not update inventory.",
+    "readOnlyHint": "To edit, open a cleaning scheduled for today in Schedule (pending or in progress).",
+    "readOnlyItem": "Read only",
+    "editableHint": "Today's cleaning is active — you can report inventory for this property."
+  },
+  "forbidden": {
+    "title": "Access denied",
+    "subtitle": "You do not have permission to access this resource.",
+    "message": "Contact EB Services support if you believe this is an error.",
+    "goBack": "Go back"
+  },
+  "profile": {
+    "title": "My profile",
+    "role": "EB Services Provider",
+    "settings": "Settings",
+    "inventory": "Field Inventory",
+    "logout": "Sign out"
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "App preferences",
+    "language": "Language",
+    "languageHint": "Choose the app display language."
+  },
+  "status": {
+    "order": {
+      "pending": "Pending",
+      "in_progress": "In progress",
+      "completed": "Completed",
+      "canceled": "Canceled",
+      "billed": "Billed"
+    }
+  },
+  "realtime": {
+    "newOrderTitle": "New order assigned",
+    "newOrderMessage": "A new cleaning was added to your schedule.",
+    "sessionEnded": "Session ended",
+    "sessionEndedMessage": "Your account was deactivated. Contact support."
+  },
+  "offline": { "pendingSync": "{{count}} action(s) awaiting sync" },
+  "errors": {
+    "locationDenied": "Location permission denied.",
+    "cameraDenied": "Camera permission denied.",
+    "galleryDenied": "Gallery permission denied."
+  }
+}

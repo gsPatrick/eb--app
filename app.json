@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "eb--app",
-    "slug": "eb--app",
+    "name": "EB Services Prestador",
+    "slug": "eb-services-provider",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -10,18 +10,47 @@
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#082567"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "com.ebservices.provider",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Precisamos da sua localização para validar check-in a até 200 m do imóvel.",
+        "NSCameraUsageDescription": "Precisamos da câmera para registrar fotos antes e depois da limpeza.",
+        "NSPhotoLibraryUsageDescription": "Precisamos acessar fotos para anexar prova visual do serviço."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#082567"
       },
+      "package": "com.ebservices.provider",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE"
+      ],
       "edgeToEdgeEnabled": true
     },
+    "plugins": [
+      "expo-font",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Validamos check-in a até 200 m do imóvel."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Anexe fotos da limpeza como prova visual.",
+          "cameraPermission": "Registre fotos antes e depois do serviço."
+        }
+      ]
+    ],
     "web": {
       "favicon": "./assets/favicon.png"
     }

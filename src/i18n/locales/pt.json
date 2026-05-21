@@ -1,0 +1,251 @@
+{
+  "common": {
+    "loading": "Carregando…",
+    "error": "Erro",
+    "success": "Sucesso",
+    "cancel": "Cancelar",
+    "continue": "Continuar",
+    "back": "Voltar",
+    "client": "Cliente",
+    "total": "Total",
+    "before": "Antes",
+    "after": "Depois",
+    "yes": "Sim",
+    "no": "Não"
+  },
+  "tabs": {
+    "schedule": "Agenda",
+    "history": "Histórico",
+    "profile": "Perfil"
+  },
+  "splash": {
+    "tagline": "Services · Prestador"
+  },
+  "onboarding": {
+    "slide1Title": "GPS de precisão",
+    "slide1Subtitle": "Check-in validado a até 200 m do imóvel. Rigor contratual EB Services.",
+    "slide2Title": "Prova visual",
+    "slide2Subtitle": "Fotos antes e depois com qualidade profissional. Confiança total do cliente.",
+    "slide3Title": "Gestão em campo",
+    "slide3Subtitle": "Agenda, inventário e execução em um só lugar. Tecnologia de ponta.",
+    "next": "Próximo",
+    "start": "Começar"
+  },
+  "auth": {
+    "brandBadge": "App mobile · Prestador",
+    "brandTagline": "Execução em campo com GPS, fotos e agenda do dia",
+    "languageLabel": "Idioma",
+    "providerOnlyNote": "Este aplicativo é exclusivo para prestadores de serviço EB.",
+    "intro": {
+      "title": "Limpeza profissional na palma da mão",
+      "subtitle": "Agenda, GPS e prova visual em um app pensado para prestadores EB.",
+      "feature1": "Check-in validado por GPS a até 200 m",
+      "feature2": "Fotos antes e depois com qualidade profissional",
+      "feature3": "Agenda e inventário do dia em um só lugar",
+      "continue": "Continuar"
+    },
+    "choice": {
+      "title": "Como você quer continuar?",
+      "subtitle": "Escolha entrar na sua conta ou criar seu cadastro de prestador.",
+      "hasAccount": "Já tenho conta",
+      "createAccount": "Quero me cadastrar"
+    },
+    "login": {
+      "title": "Boas-vindas de volta",
+      "subtitle": "Informe seu e-mail e senha para acessar sua agenda",
+      "email": "E-mail",
+      "password": "Senha",
+      "submit": "Entrar",
+      "emailRequired": "Informe seu e-mail.",
+      "emailInvalid": "E-mail inválido.",
+      "passwordRequired": "Informe sua senha.",
+      "providerOnly": "Este app é exclusivo para prestadores de serviço.",
+      "failed": "Falha no login",
+      "noAccount": "Ainda não tem conta?",
+      "registerLink": "Cadastrar como prestador",
+      "forgotPassword": "Esqueceu a senha?"
+    },
+    "forgotPassword": {
+      "title": "Recuperar senha",
+      "subtitle": "Informe o e-mail da sua conta de prestador para receber o código",
+      "email": "E-mail",
+      "submit": "Enviar código",
+      "emailRequired": "Informe seu e-mail.",
+      "emailInvalid": "E-mail inválido.",
+      "failed": "Não foi possível enviar o código.",
+      "otpTitle": "Digite o código",
+      "otpSubtitle": "Enviamos um código de 5 dígitos para {{email}}",
+      "otpRequired": "Informe os 5 dígitos do código.",
+      "otpSubmit": "Verificar código",
+      "otpFailed": "Código inválido ou expirado.",
+      "resendCode": "Reenviar código",
+      "resetTitle": "Nova senha",
+      "resetSubtitle": "Crie uma nova senha para acessar sua conta",
+      "newPassword": "Nova senha",
+      "confirmPassword": "Confirmar nova senha",
+      "passwordRequired": "Informe a nova senha.",
+      "passwordMinLength": "A senha deve ter ao menos 8 caracteres.",
+      "confirmPasswordMismatch": "As senhas não coincidem.",
+      "resetSubmit": "Redefinir senha",
+      "resetFailed": "Não foi possível redefinir a senha.",
+      "successTitle": "Senha redefinida",
+      "successMessage": "Sua senha foi atualizada. Faça login com a nova senha."
+    },
+    "register": {
+      "title": "Vamos criar sua conta",
+      "subtitle": "Preencha seus dados para se cadastrar como prestador EB",
+      "fullName": "Nome completo",
+      "email": "E-mail",
+      "phone": "Telefone",
+      "phoneOptional": "opcional",
+      "password": "Senha",
+      "confirmPassword": "Confirmar senha",
+      "terms": "Li e aceito os termos de uso da EB Services",
+      "termsRequired": "Aceite os termos para continuar.",
+      "submit": "Criar conta",
+      "nameRequired": "Informe seu nome.",
+      "emailRequired": "Informe seu e-mail.",
+      "emailInvalid": "E-mail inválido.",
+      "passwordRequired": "Informe sua senha.",
+      "passwordMinLength": "A senha deve ter ao menos 8 caracteres.",
+      "confirmPasswordMismatch": "As senhas não coincidem.",
+      "successTitle": "Conta criada",
+      "successMessage": "Cadastro recebido! Aguarde a ativação da sua conta para entrar no app.",
+      "hasAccount": "Já tem conta?",
+      "loginLink": "Entrar",
+      "failed": "Falha no cadastro"
+    }
+  },
+  "permissions": {
+    "title": "Permissões necessárias",
+    "subtitle": "Para garantir rigor operacional e prova de execução, precisamos de acesso aos recursos abaixo.",
+    "locationTitle": "Localização precisa",
+    "locationDesc": "Validamos que você está a até 200 m do imóvel antes do check-in. Essencial para o contrato EB.",
+    "cameraTitle": "Câmera e fotos",
+    "cameraDesc": "Registre a prova visual antes e depois de cada limpeza. O cliente precisa confiar no serviço.",
+    "denied": "Precisamos de localização e câmera para executar ordens de serviço.",
+    "submit": "Autorizar e continuar"
+  },
+  "schedule": {
+    "title": "Agenda do Dia",
+    "subtitle": "Limpezas atribuídas para hoje · Toque para iniciar a execução",
+    "emptyTitle": "Nenhuma OS para hoje",
+    "emptySubtitle": "Peça ao administrador para atribuir uma OS com data de hoje ou aguarde novas limpezas.",
+    "openMaps": "Como chegar",
+    "continue": "Continuar",
+    "start": "Iniciar"
+  },
+  "execution": {
+    "notFound": "Ordem de serviço não encontrada.",
+    "backToSchedule": "Voltar à agenda",
+    "sections": {
+      "status": "Status",
+      "location": "Localização",
+      "service": "Serviço",
+      "action": "Etapa atual"
+    },
+    "geofenceRadius": "Raio permitido",
+    "gpsValidation": "Validação GPS",
+    "gpsPending": "GPS ainda não validado",
+    "scheduledFor": "Agendado",
+    "stepOf": "Passo {{current}} de {{total}}",
+    "step1Title": "Check-in & localização",
+    "step1Hint": "Valide sua proximidade ao imóvel antes de iniciar a limpeza.",
+    "startCleaning": "Iniciar limpeza",
+    "validatingLocation": "Validando localização…",
+    "locationValidated": "Localização confirmada",
+    "gpsCoords": "GPS: {{lat}}, {{lng}}",
+    "step2Title": "Prova visual — Antes",
+    "step2Hint": "Tire ao menos 1 foto do estado inicial do imóvel.",
+    "takePhoto": "Tirar foto",
+    "pickGallery": "Galeria",
+    "photosRequired": "Adicione ao menos uma foto antes.",
+    "submitCheckIn": "Enviar check-in",
+    "step3Title": "Serviços extras",
+    "step3Hint": "Marque os serviços adicionais executados nesta limpeza.",
+    "step4Title": "Check-out & Depois",
+    "step4Hint": "Finalize com fotos do resultado e validação GPS.",
+    "afterPhotosRequired": "Adicione ao menos uma foto depois.",
+    "completeService": "Concluir serviço",
+    "geofenceTitle": "Fora da área permitida",
+    "geofenceDescription": "Você precisa estar a no máximo {{radius}} m do imóvel.",
+    "geofenceDistance": "Distância atual: {{distance}} m",
+    "geofenceDismiss": "Entendi",
+    "checkInSuccess": "Check-in realizado",
+    "checkOutSuccess": "Serviço concluído",
+    "offlineSaved": "Sem conexão",
+    "offlineSavedMessage": "Seus dados foram salvos e serão sincronizados automaticamente quando o sinal voltar."
+  },
+  "history": {
+    "title": "Histórico",
+    "subtitle": "Serviços concluídos e ganhos acumulados",
+    "totalEarned": "Total recebido",
+    "completedCount": "{{count}} serviço(s) concluído(s)",
+    "basePlusExtras": "Base + extras",
+    "photoCount": "{{count}} foto(s)",
+    "emptyTitle": "Nenhum serviço concluído",
+    "emptySubtitle": "Quando você finalizar limpezas, elas aparecerão aqui.",
+    "notFound": "Serviço não encontrado.",
+    "noPhotos": "Nenhuma foto registrada neste serviço."
+  },
+  "inventory": {
+    "title": "Inventário de Campo",
+    "subtitle": "Produtos das propriedades que você atende",
+    "quantityLabel": "{{quantity}} {{unit}} · mín. {{min}}",
+    "criticalAlert": "{{count}} item(ns) em estoque crítico — repor com urgência",
+    "emptyTitle": "Inventário vazio",
+    "emptySubtitle": "Quando houver produtos cadastrados nas suas propriedades, eles aparecerão aqui.",
+    "status": {
+      "ok": "OK",
+      "low": "Baixo",
+      "critical": "Crítico"
+    },
+    "save": "Salvar",
+    "updateError": "Não foi possível atualizar o estoque.",
+    "readOnlyHint": "Para editar, abra uma limpeza de hoje na Agenda (pendente ou em andamento).",
+    "readOnlyItem": "Somente leitura",
+    "editableHint": "Limpeza de hoje ativa — você pode reportar o estoque desta propriedade."
+  },
+  "forbidden": {
+    "title": "Acesso negado",
+    "subtitle": "Você não tem permissão para acessar este recurso.",
+    "message": "Entre em contato com o suporte EB Services se acredita que isso é um erro.",
+    "goBack": "Voltar"
+  },
+  "profile": {
+    "title": "Meu perfil",
+    "role": "Prestador EB Services",
+    "settings": "Configurações",
+    "inventory": "Inventário de Campo",
+    "logout": "Sair da conta"
+  },
+  "settings": {
+    "title": "Configurações",
+    "subtitle": "Preferências do aplicativo",
+    "language": "Idioma",
+    "languageHint": "Escolha o idioma de exibição do app."
+  },
+  "status": {
+    "order": {
+      "pending": "Pendente",
+      "in_progress": "Em andamento",
+      "completed": "Concluída",
+      "canceled": "Cancelada",
+      "billed": "Faturada"
+    }
+  },
+  "realtime": {
+    "newOrderTitle": "Nova OS atribuída",
+    "newOrderMessage": "Uma nova limpeza foi adicionada à sua agenda.",
+    "sessionEnded": "Sessão encerrada",
+    "sessionEndedMessage": "Sua conta foi desativada. Entre em contato com o suporte."
+  },
+  "offline": {
+    "pendingSync": "{{count}} ação(ões) aguardando sincronização"
+  },
+  "errors": {
+    "locationDenied": "Permissão de localização negada.",
+    "cameraDenied": "Permissão de câmera negada.",
+    "galleryDenied": "Permissão de galeria negada."
+  }
+}
