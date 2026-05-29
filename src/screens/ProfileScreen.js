@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
-import { Package, Settings } from 'lucide-react-native';
+import { FileText, Bell, MessageCircle, Package, Receipt, Settings } from 'lucide-react-native';
 import Button from '../components/atoms/Button';
 import EBText from '../components/atoms/Text';
 import { useAuth } from '../context/AuthContext';
@@ -10,12 +10,38 @@ import { colors, radius, shadows, spacing } from '../theme/variables';
 
 export default function ProfileScreen({ navigation }) {
   const { t } = useTranslation();
-  const { user, signOut } = useAuth();
+  const { user, signOut, isClient } = useAuth();
+  const [loggingOut, setLoggingOut] = useState(false);
 
-  const menuItems = [
-    { key: 'inventory', icon: Package, label: t('profile.inventory'), route: 'Inventory' },
-    { key: 'settings', icon: Settings, label: t('profile.settings'), route: 'Settings' },
-  ];
+  const handleLogout = async () => {
+    if (loggingOut) return;
+
+    try {
+      setLoggingOut(true);
+      await signOut();
+    } finally {
+      setLoggingOut(false);
+    }
+  };
+
+  const menuItems = useMemo(() => {
+    if (isClient) {
+      return [
+        { key: 'notifications', icon: Bell, label: t('notifications.title'), route: 'Notifications' },
+        { key: 'contracts', icon: FileText, label: t('client.profile.contracts'), route: 'Contracts' },
+        { key: 'billing', icon: Receipt, label: t('client.profile.billing'), route: 'Billing' },
+        { key: 'messages', icon: MessageCircle, label: t('client.profile.messages'), route: 'Messages' },
+        { key: 'settings', icon: Settings, label: t('profile.settings'), route: 'Settings' },
+      ];
+    }
+
+    return [
+      { key: 'notifications', icon: Bell, label: t('notifications.title'), route: 'Notifications' },
+      { key: 'messages', icon: MessageCircle, label: t('provider.messages.title'), route: 'Messages' },
+      { key: 'inventory', icon: Package, label: t('profile.inventory'), route: 'Inventory' },
+      { key: 'settings', icon: Settings, label: t('profile.settings'), route: 'Settings' },
+    ];
+  }, [isClient, t]);
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -31,7 +57,7 @@ export default function ProfileScreen({ navigation }) {
             {user?.email}
           </EBText>
           <EBText variant="caption" color="brand" style={styles.role}>
-            {t('profile.role')}
+            {isClient ? t('profile.clientRole') : t('profile.role')}
           </EBText>
         </View>
 
@@ -51,7 +77,14 @@ export default function ProfileScreen({ navigation }) {
           );
         })}
 
-        <Button variant="secondary" fullWidth onPress={signOut} style={styles.logout}>
+        <Button
+          variant="secondary"
+          fullWidth
+          loading={loggingOut}
+          disabled={loggingOut}
+          onPress={handleLogout}
+          style={styles.logout}
+        >
           {t('profile.logout')}
         </Button>
       </View>

@@ -33,19 +33,24 @@ export default function OrderCard({ order, onPress, onNavigate }) {
 
       <View style={styles.metaRow}>
         <EBText variant="caption" color="secondary">
-          {t('common.client')}: {order.client}
-        </EBText>
-        <EBText variant="caption" color="brand">
-          {formatCurrency(order.totalPrice)}
-        </EBText>
-      </View>
-
-      <View style={styles.metaRow}>
-        <EBText variant="caption" color="secondary">
           {formatDate(order.scheduledDate)}
           {order.scheduledTime ? ` · ${order.scheduledTime}` : ''}
         </EBText>
+        <EBText variant="caption" color="brand">
+          {formatCurrency(order.providerPayoutAmount || order.totalPrice)}
+        </EBText>
       </View>
+
+      {(order.cleaningType || order.estimatedDurationMinutes) ? (
+        <View style={styles.metaRow}>
+          <EBText variant="caption" color="secondary">
+            {order.cleaningType ? t(`cleaningTypes.${order.cleaningType}`, order.cleaningType) : ''}
+            {order.estimatedDurationMinutes
+              ? ` · ~${Math.max(1, Math.round(order.estimatedDurationMinutes / 60))}h`
+              : ''}
+          </EBText>
+        </View>
+      ) : null}
 
       <View style={styles.actions}>
         <Pressable onPress={openMaps} style={styles.mapBtn}>

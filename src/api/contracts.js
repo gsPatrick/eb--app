@@ -7,6 +7,7 @@ function mapContract(contract, acceptance) {
     id: contract.id,
     title: contract.title || contract.name,
     version: contract.version,
+    pdfUrl: contract.pdfUrl || contract.fileUrl || null,
     status: signed ? 'accepted' : 'pending',
     signedAt: signed?.acceptedAt || signed?.signedAt || null,
   };

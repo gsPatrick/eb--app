@@ -13,13 +13,28 @@
     "yes": "Sim",
     "no": "Não"
   },
+  "cleaningTypes": {
+    "deep": "Limpeza profunda",
+    "regular": "Limpeza regular",
+    "post_construction": "Pós-obra",
+    "move_in": "Move in",
+    "move_out": "Move out",
+    "regular_airbnb": "Regular Airbnb"
+  },
   "tabs": {
     "schedule": "Agenda",
     "history": "Histórico",
     "profile": "Perfil"
   },
+  "clientTabs": {
+    "properties": "Propriedades",
+    "orders": "Próximas",
+    "history": "Histórico",
+    "inventory": "Inventário",
+    "profile": "Perfil"
+  },
   "splash": {
-    "tagline": "Services · Prestador"
+    "tagline": "Services · Cliente & Prestador"
   },
   "onboarding": {
     "slide1Title": "GPS de precisão",
@@ -32,9 +47,10 @@
     "start": "Começar"
   },
   "auth": {
-    "brandBadge": "App mobile · Prestador",
-    "brandTagline": "Execução em campo com GPS, fotos e agenda do dia",
+    "brandBadge": "App mobile · EB Services",
+    "brandTagline": "Cliente ou prestador — tudo no celular",
     "languageLabel": "Idioma",
+    "dualRoleNote": "Escolha se você é cliente (proprietário) ou prestador de serviço.",
     "providerOnlyNote": "Este aplicativo é exclusivo para prestadores de serviço EB.",
     "intro": {
       "title": "Limpeza profissional na palma da mão",
@@ -46,7 +62,9 @@
     },
     "choice": {
       "title": "Como você quer continuar?",
-      "subtitle": "Escolha entrar na sua conta ou criar seu cadastro de prestador.",
+      "subtitle": "Escolha seu perfil e entre ou crie sua conta.",
+      "clientRole": "Sou cliente",
+      "providerRole": "Sou prestador",
       "hasAccount": "Já tenho conta",
       "createAccount": "Quero me cadastrar"
     },
@@ -60,9 +78,10 @@
       "emailInvalid": "E-mail inválido.",
       "passwordRequired": "Informe sua senha.",
       "providerOnly": "Este app é exclusivo para prestadores de serviço.",
+      "unsupportedRole": "Este perfil não pode acessar o app mobile. Use a conta de cliente ou prestador.",
       "failed": "Falha no login",
       "noAccount": "Ainda não tem conta?",
-      "registerLink": "Cadastrar como prestador",
+      "registerLink": "Criar conta",
       "forgotPassword": "Esqueceu a senha?"
     },
     "forgotPassword": {
@@ -167,6 +186,13 @@
     "step4Hint": "Finalize com fotos do resultado e validação GPS.",
     "afterPhotosRequired": "Adicione ao menos uma foto depois.",
     "completeService": "Concluir serviço",
+    "estimatedDuration": "Tempo estimado",
+    "providerPayout": "Seu repasse",
+    "accessInfo": "Acesso ao imóvel",
+    "entryInstructions": "Instruções",
+    "gateCode": "Código do portão",
+    "doorCode": "Código da porta",
+    "lockboxCode": "Código do lockbox",
     "geofenceTitle": "Fora da área permitida",
     "geofenceDescription": "Você precisa estar a no máximo {{radius}} m do imóvel.",
     "geofenceDistance": "Distância atual: {{distance}} m",
@@ -174,7 +200,22 @@
     "checkInSuccess": "Check-in realizado",
     "checkOutSuccess": "Serviço concluído",
     "offlineSaved": "Sem conexão",
-    "offlineSavedMessage": "Seus dados foram salvos e serão sincronizados automaticamente quando o sinal voltar."
+    "offlineSavedMessage": "Seus dados foram salvos e serão sincronizados automaticamente quando o sinal voltar.",
+    "fieldReportTitle": "Reportar dano, achado ou perdido",
+    "fieldReportHint": "Opcional — avisa admin e cliente com fotos durante a limpeza.",
+    "fieldReportDescriptionPlaceholder": "Descreva o que encontrou…",
+    "fieldReportDescriptionRequired": "Informe a descrição do relatório.",
+    "fieldReportPhotosRequired": "Adicione pelo menos uma foto.",
+    "fieldReportPhotos": "Fotos do relatório",
+    "submitFieldReport": "Enviar relatório",
+    "fieldReportSuccess": "Relatório enviado ao admin.",
+    "fieldReportTypes": { "damage": "Dano", "found": "Achado", "lost": "Perdido" }
+  },
+  "notifications": {
+    "title": "Notificações",
+    "empty": "Nenhuma notificação ainda.",
+    "unread": "Nova",
+    "markAllRead": "Marcar todas como lidas"
   },
   "history": {
     "title": "Histórico",
@@ -197,8 +238,8 @@
     "extrasPerformed": "Serviços extras realizados"
   },
   "location": {
-    "coordinates": "Coordenadas",
-    "unknownAddress": "Endereço não identificado"
+    "unknownAddress": "Endereço não identificado",
+    "openInMaps": "Abrir no mapa"
   },
   "inventory": {
     "title": "Inventário de Campo",
@@ -227,9 +268,92 @@
   "profile": {
     "title": "Meu perfil",
     "role": "Prestador EB Services",
+    "clientRole": "Cliente EB Services",
     "settings": "Configurações",
     "inventory": "Inventário de Campo",
     "logout": "Sair da conta"
+  },
+  "client": {
+    "properties": {
+      "title": "Minhas propriedades",
+      "subtitle": "Status de limpeza dos seus imóveis",
+      "statusClean": "Limpo",
+      "statusDirty": "Precisa limpar",
+      "statusScheduled": "Agendado",
+      "lastCleaning": "Última limpeza",
+      "nextCleaning": "Próxima limpeza",
+      "emptyTitle": "Nenhuma propriedade cadastrada"
+    },
+    "history": {
+      "title": "Histórico de serviços",
+      "subtitle": "Serviços concluídos com fotos e detalhes",
+      "providerLabel": "Prestador: {{name}}",
+      "emptyTitle": "Nenhum serviço concluído ainda"
+    },
+    "inventory": {
+      "title": "Inventário da casa",
+      "subtitle": "Níveis de estoque dos seus imóveis",
+      "allProperties": "Todas",
+      "emptyTitle": "Nenhum item de inventário"
+    },
+    "contracts": {
+      "title": "Meus contratos",
+      "subtitle": "Visualize e aceite contratos digitais",
+      "version": "Versão {{version}}",
+      "pending": "Pendente de aceite",
+      "acceptedAt": "Aceito em {{date}}",
+      "viewPdf": "Ver PDF",
+      "accept": "Aceitar contrato",
+      "acceptSuccessTitle": "Contrato aceito",
+      "acceptSuccessMessage": "Seu aceite foi registrado com sucesso.",
+      "acceptFailed": "Não foi possível aceitar o contrato.",
+      "noPdf": "PDF não disponível para este contrato.",
+      "emptyTitle": "Nenhum contrato disponível"
+    },
+    "billing": {
+      "title": "Financeiro",
+      "subtitle": "Resumo dos serviços concluídos",
+      "currentMonth": "Este mês",
+      "previousMonth": "Mês anterior",
+      "emptyTitle": "Nenhuma cobrança registrada"
+    },
+    "profile": {
+      "contracts": "Meus contratos",
+      "billing": "Financeiro",
+      "messages": "Mensagens para EB"
+    },
+    "orders": {
+      "title": "Próximas limpezas",
+      "subtitle": "Solicite extras até 24h antes da data agendada.",
+      "extrasTitle": "Serviços extras",
+      "requestedByYou": "Solicitado",
+      "requestExtra": "Solicitar",
+      "extraRequested": "Extra solicitado",
+      "extraRequestedMessage": "O extra foi incluído na ordem.",
+      "emptyTitle": "Nenhuma limpeza pendente"
+    },
+    "messages": {
+      "title": "Mensagens para EB",
+      "subtitle": "Fale com a equipe admin.",
+      "subject": "Assunto",
+      "body": "Mensagem",
+      "sendToAdmin": "Enviar para admin",
+      "sent": "Mensagem enviada",
+      "sentMessage": "A equipe responderá aqui.",
+      "fromAdmin": "Da equipe EB",
+      "fromYou": "Enviada por você"
+    }
+  },
+  "provider": {
+    "messages": {
+      "title": "Mensagens para EB",
+      "subtitle": "Fale com o admin sobre agenda ou problemas.",
+      "subject": "Assunto",
+      "body": "Mensagem",
+      "sendToAdmin": "Enviar para admin",
+      "sent": "Mensagem enviada",
+      "sentMessage": "Sua mensagem foi entregue."
+    }
   },
   "settings": {
     "title": "Configurações",
@@ -250,7 +374,11 @@
     "newOrderTitle": "Nova OS atribuída",
     "newOrderMessage": "Uma nova limpeza foi adicionada à sua agenda.",
     "sessionEnded": "Sessão encerrada",
-    "sessionEndedMessage": "Sua conta foi desativada. Entre em contato com o suporte."
+    "sessionEndedMessage": "Sua conta foi desativada. Entre em contato com o suporte.",
+    "inventoryCriticalTitle": "Estoque crítico",
+    "inventoryCriticalMessage": "Um item de inventário atingiu o nível crítico.",
+    "cleaningReminderTitle": "Limpeza amanhã",
+    "cleaningReminderMessage": "Deseja adicionar algum extra?"
   },
   "offline": {
     "pendingSync": "{{count}} ação(ões) aguardando sincronização"

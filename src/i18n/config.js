@@ -1,4 +1,4 @@
-export const LOCALES = ['pt', 'en', 'es', 'fr', 'de'];
+export const LOCALES = ['en', 'pt', 'es', 'fr', 'de'];
 
 export const LOCALE_LABELS = {
   pt: { name: 'Português', flag: '🇧🇷', intl: 'pt-BR' },
@@ -16,5 +16,5 @@ export const LOCALE_FLAG_IMAGES = {
   de: require('../../assets/flags/de.png'),
 };
 
-export const DEFAULT_LOCALE = 'pt';
+export const DEFAULT_LOCALE = 'en';
 export const LOCALE_STORAGE_KEY = 'eb_locale';

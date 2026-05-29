@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { clearAuthSession, getToken } from './storage';
+import { clearAppStorage, getToken } from './storage';
 import { navigate } from '../navigation/navigationRef';
 
 export const API_BASE_URL = 'https://sistema-api.a8v108.easypanel.host/api/v1';
@@ -38,7 +38,7 @@ apiClient.interceptors.response.use(
     const data = error.response?.data;
 
     if (status === 401) {
-      await clearAuthSession();
+      await clearAppStorage();
       onUnauthorized?.();
     }
 

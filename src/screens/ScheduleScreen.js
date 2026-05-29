@@ -3,6 +3,7 @@ import { FlatList, RefreshControl, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import OrderCard from '../components/molecules/OrderCard';
+import NotificationBellButton from '../components/molecules/NotificationBellButton';
 import ScheduleSkeletonList from '../components/molecules/ScheduleSkeletonList';
 import EBText from '../components/atoms/Text';
 import { useRealtime } from '../context/RealtimeContext';
@@ -34,15 +35,20 @@ export default function ScheduleScreen({ navigation }) {
   const header = useMemo(
     () => (
       <View style={styles.header}>
-        <EBText variant="title" color="brand">
-          {t('schedule.title')}
-        </EBText>
-        <EBText variant="caption" color="secondary" style={styles.sub}>
-          {t('schedule.subtitle')}
-        </EBText>
+        <View style={styles.headerRow}>
+          <View style={styles.headerText}>
+            <EBText variant="title" color="brand">
+              {t('schedule.title')}
+            </EBText>
+            <EBText variant="caption" color="secondary" style={styles.sub}>
+              {t('schedule.subtitle')}
+            </EBText>
+          </View>
+          <NotificationBellButton onPress={() => navigation.navigate('Notifications')} />
+        </View>
       </View>
     ),
-    [t, i18n.language]
+    [t, i18n.language, navigation]
   );
 
   if (loading && !orders?.length) {
@@ -88,6 +94,8 @@ const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.bg },
   container: { padding: spacing.xxl, paddingBottom: 100 },
   header: { marginBottom: spacing.xl },
+  headerRow: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' },
+  headerText: { flex: 1, paddingRight: spacing.md },
   sub: { marginTop: spacing.xs },
   empty: { alignItems: 'center', paddingVertical: 48 },
   emptySub: { marginTop: spacing.sm, textAlign: 'center' },

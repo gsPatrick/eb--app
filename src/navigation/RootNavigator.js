@@ -8,7 +8,7 @@ import { RealtimeProvider } from '../context/RealtimeContext';
 import { navigationRef } from './navigationRef';
 import { getAuthFlowRoute } from './flowRoutes';
 import SplashScreenView from '../screens/SplashScreen';
-import MainTabs from './MainTabs';
+import MainRouter from './MainRouter';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
@@ -35,15 +35,17 @@ const authScreens = (
     <AuthStack.Screen name="ForgotPasswordOtp" component={ForgotPasswordOtpScreen} />
     <AuthStack.Screen name="ResetPassword" component={ResetPasswordScreen} />
     <AuthStack.Screen name="Permissions" component={PermissionsScreen} />
-    <AuthStack.Screen name="Main" component={MainTabs} />
+    <AuthStack.Screen name="Main" component={MainRouter} />
   </>
 );
 
 function AuthenticatedNavigator() {
+  const { user } = useAuth();
+
   return (
     <RealtimeProvider>
       <AppStack.Navigator screenOptions={{ headerShown: false, animation: 'slide_from_right' }}>
-        <AppStack.Screen name="Main" component={MainTabs} />
+        <AppStack.Screen name="Main" component={MainRouter} key={user?.role || 'main'} />
         <AppStack.Screen name="Forbidden" component={ForbiddenScreen} />
       </AppStack.Navigator>
     </RealtimeProvider>
@@ -51,7 +53,7 @@ function AuthenticatedNavigator() {
 }
 
 function AppNavigator() {
-  const { booting, isAuthenticated, onboardingDone, permissionsGranted } = useAuth();
+  const { booting, isAuthenticated, onboardingDone, permissionsGranted, authIntentRole } = useAuth();
   const { localeOnboardingDone, ready: i18nReady } = useLocale();
 
   if (booting || !i18nReady) {
@@ -67,6 +69,7 @@ function AppNavigator() {
     onboardingDone,
     isAuthenticated,
     permissionsGranted,
+    authIntentRole,
   });
 
   if (flowRoute === null) {
@@ -86,13 +89,14 @@ function AppNavigator() {
 
 export default function RootNavigator() {
   const [showSplash, setShowSplash] = useState(true);
+  const { navResetKey } = useAuth();
 
   if (showSplash) {
     return <SplashScreenView onFinish={() => setShowSplash(false)} />;
   }
 
   return (
-    <NavigationContainer ref={navigationRef}>
+    <NavigationContainer ref={navigationRef} key={`root-nav-${navResetKey}`}>
       <AppNavigator />
     </NavigationContainer>
   );

@@ -5,20 +5,56 @@ import { useTranslation } from 'react-i18next';
 import Button from '../components/atoms/Button';
 import EBText from '../components/atoms/Text';
 import AuthHeroHeader from '../components/molecules/AuthHeroHeader';
+import { useAuth } from '../context/AuthContext';
 import { colors, spacing } from '../theme/variables';
 
 export default function AuthChoiceScreen({ navigation }) {
   const { t } = useTranslation();
+  const { authIntentRole, chooseAuthRole } = useAuth();
+
+  const selectRole = async (role) => {
+    await chooseAuthRole(role);
+  };
+
+  const goLogin = async (role) => {
+    await selectRole(role);
+    navigation.navigate('Login');
+  };
+
+  const goRegister = async (role) => {
+    await selectRole(role);
+    navigation.navigate('Register');
+  };
 
   return (
     <SafeAreaView style={styles.safe} edges={['left', 'right', 'bottom']}>
       <AuthHeroHeader title={t('auth.choice.title')} subtitle={t('auth.choice.subtitle')} />
 
       <View style={styles.actions}>
+        <View style={styles.roleRow}>
+          <Button
+            fullWidth
+            variant={authIntentRole === 'client' ? 'primary' : 'secondary'}
+            onPress={() => selectRole('client')}
+            style={styles.roleBtn}
+          >
+            {t('auth.choice.clientRole')}
+          </Button>
+          <Button
+            fullWidth
+            variant={authIntentRole === 'provider' ? 'primary' : 'secondary'}
+            onPress={() => selectRole('provider')}
+            style={styles.roleBtn}
+          >
+            {t('auth.choice.providerRole')}
+          </Button>
+        </View>
+
         <Button
           fullWidth
           size="lg"
-          onPress={() => navigation.navigate('Register')}
+          disabled={!authIntentRole}
+          onPress={() => goRegister(authIntentRole)}
           style={styles.primaryBtn}
         >
           {t('auth.choice.createAccount')}
@@ -28,14 +64,15 @@ export default function AuthChoiceScreen({ navigation }) {
           fullWidth
           size="lg"
           variant="secondary"
-          onPress={() => navigation.navigate('Login')}
+          disabled={!authIntentRole}
+          onPress={() => goLogin(authIntentRole)}
           style={styles.secondaryBtn}
         >
           {t('auth.choice.hasAccount')}
         </Button>
 
         <EBText variant="caption" color="muted" style={styles.note}>
-          {t('auth.providerOnlyNote')}
+          {t('auth.dualRoleNote')}
         </EBText>
       </View>
     </SafeAreaView>
@@ -54,6 +91,12 @@ const styles = StyleSheet.create({
     gap: spacing.md,
     backgroundColor: colors.bgElevated,
   },
+  roleRow: {
+    flexDirection: 'row',
+    gap: spacing.md,
+    marginBottom: spacing.sm,
+  },
+  roleBtn: { flex: 1 },
   primaryBtn: {
     borderRadius: 999,
     minHeight: 56,

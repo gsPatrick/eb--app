@@ -76,8 +76,8 @@ export default function HistoryDetailScreen({ route, navigation }) {
           <EBText variant="caption" color="secondary" style={styles.address}>
             {order.propertyAddress}
           </EBText>
-          <EBText variant="caption" color="secondary" style={styles.client}>
-            {t('history.client')}: {order.client}
+          <EBText variant="caption" color="brand" style={styles.client}>
+            {formatCurrency(order.providerPayoutAmount || order.totalPrice)}
           </EBText>
           <View style={styles.metaRow}>
             <EBText variant="caption" color="secondary">
@@ -97,6 +97,7 @@ export default function HistoryDetailScreen({ route, navigation }) {
             title={t('history.propertyLocation')}
             latitude={order.propertyLat}
             longitude={order.propertyLong}
+            address={order.propertyAddress}
           />
           <LocationRow
             title={t('history.checkInLocation')}
@@ -123,41 +124,57 @@ export default function HistoryDetailScreen({ route, navigation }) {
           </View>
         ) : null}
 
-        {order.beforePhotos?.length ? (
+        {(order.beforePhotos?.length || order.afterPhotos?.length) ? (
           <View style={styles.section}>
-            <EBText variant="heading" style={styles.sectionTitle}>
-              {t('common.before')}
-            </EBText>
-            <View style={styles.grid}>
-              {order.beforePhotos.map((uri) => (
-                <Pressable key={uri} onPress={() => setPreviewUri(uri)}>
-                  <Image source={{ uri }} style={styles.thumb} />
-                </Pressable>
-              ))}
+            <View style={styles.photoCompareRow}>
+              <View style={styles.photoCompareColumn}>
+                <EBText variant="heading" style={styles.sectionTitle}>
+                  {t('common.before')}
+                </EBText>
+                <View style={styles.photoCompareStack}>
+                  {order.beforePhotos?.length ? (
+                    order.beforePhotos.map((uri) => (
+                      <Pressable key={uri} onPress={() => setPreviewUri(uri)}>
+                        <Image source={{ uri }} style={styles.compareThumb} />
+                      </Pressable>
+                    ))
+                  ) : (
+                    <View style={styles.photoCompareEmpty}>
+                      <EBText variant="caption" color="muted" style={styles.emptyText}>
+                        {t('history.noPhotos')}
+                      </EBText>
+                    </View>
+                  )}
+                </View>
+              </View>
+
+              <View style={styles.photoCompareColumn}>
+                <EBText variant="heading" style={styles.sectionTitle}>
+                  {t('common.after')}
+                </EBText>
+                <View style={styles.photoCompareStack}>
+                  {order.afterPhotos?.length ? (
+                    order.afterPhotos.map((uri) => (
+                      <Pressable key={uri} onPress={() => setPreviewUri(uri)}>
+                        <Image source={{ uri }} style={styles.compareThumb} />
+                      </Pressable>
+                    ))
+                  ) : (
+                    <View style={styles.photoCompareEmpty}>
+                      <EBText variant="caption" color="muted" style={styles.emptyText}>
+                        {t('history.noPhotos')}
+                      </EBText>
+                    </View>
+                  )}
+                </View>
+              </View>
             </View>
           </View>
-        ) : null}
-
-        {order.afterPhotos?.length ? (
-          <View style={styles.section}>
-            <EBText variant="heading" style={styles.sectionTitle}>
-              {t('common.after')}
-            </EBText>
-            <View style={styles.grid}>
-              {order.afterPhotos.map((uri) => (
-                <Pressable key={uri} onPress={() => setPreviewUri(uri)}>
-                  <Image source={{ uri }} style={styles.thumb} />
-                </Pressable>
-              ))}
-            </View>
-          </View>
-        ) : null}
-
-        {!allPhotos.length ? (
+        ) : (
           <EBText variant="body" color="secondary" style={styles.noPhotos}>
             {t('history.noPhotos')}
           </EBText>
-        ) : null}
+        )}
       </ScrollView>
 
       <Modal visible={Boolean(previewUri)} transparent animationType="fade" onRequestClose={() => setPreviewUri(null)}>
@@ -200,13 +217,37 @@ const styles = StyleSheet.create({
   section: { gap: spacing.md },
   sectionTitle: { marginBottom: spacing.xs },
   extraItem: { lineHeight: 22 },
-  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
-  thumb: {
-    width: 104,
-    height: 104,
+  photoCompareRow: {
+    flexDirection: 'row',
+    gap: spacing.md,
+    alignItems: 'flex-start',
+  },
+  photoCompareColumn: {
+    flex: 1,
+    gap: spacing.sm,
+    minWidth: 0,
+  },
+  photoCompareStack: {
+    gap: spacing.sm,
+  },
+  compareThumb: {
+    width: '100%',
+    aspectRatio: 4 / 3,
     borderRadius: radius.md,
     backgroundColor: colors.bgMuted,
   },
+  photoCompareEmpty: {
+    minHeight: 100,
+    borderRadius: radius.md,
+    borderWidth: 1,
+    borderStyle: 'dashed',
+    borderColor: colors.border,
+    backgroundColor: colors.bgMuted,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: spacing.md,
+  },
+  emptyText: { textAlign: 'center' },
   noPhotos: { textAlign: 'center', marginTop: spacing.md },
   modalOverlay: {
     flex: 1,

@@ -56,3 +56,8 @@ export async function listExtras(params = {}) {
   const { items, meta } = unwrapList(response);
   return { items: items.map(mapServiceExtra), meta };
 }
+
+export async function requestExtra(id, extraId) {
+  const response = await apiClient.post(`/service-orders/${id}/request-extras`, { extraId });
+  return mapServiceOrder(unwrapResponse(response).order);
+}

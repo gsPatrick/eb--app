@@ -15,8 +15,8 @@ export function isWithinGeofence(userLat, userLng, targetLat, targetLng, radiusM
   return { within: distance <= radiusMeters, distance };
 }
 
-export function formatCurrency(value, locale = 'pt-BR') {
-  return new Intl.NumberFormat(locale, { style: 'currency', currency: 'BRL' }).format(value || 0);
+export function formatCurrency(value, locale = 'en-US') {
+  return new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD' }).format(value || 0);
 }
 
 export function formatDate(value, locale = 'pt-BR') {

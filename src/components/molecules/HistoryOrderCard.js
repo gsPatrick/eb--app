@@ -7,7 +7,7 @@ import EBText from '../atoms/Text';
 import { useFormatters } from '../../hooks/useFormatters';
 import { colors, radius, shadows, spacing } from '../../theme/variables';
 
-export default function HistoryOrderCard({ order, onPress }) {
+export default function HistoryOrderCard({ order, onPress, subtitle }) {
   const { t } = useTranslation();
   const { formatCurrency, formatDate, getOrderStatusLabel, getOrderStatusVariant } = useFormatters();
   const photoCount = (order.beforePhotos?.length || 0) + (order.afterPhotos?.length || 0);
@@ -25,6 +25,11 @@ export default function HistoryOrderCard({ order, onPress }) {
         )}
         <View style={styles.flex}>
           <EBText variant="heading">{order.property}</EBText>
+          {subtitle ? (
+            <EBText variant="caption" color="brand" style={styles.address}>
+              {subtitle}
+            </EBText>
+          ) : null}
           <EBText variant="caption" color="secondary" style={styles.address} numberOfLines={2}>
             {order.propertyAddress}
           </EBText>

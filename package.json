@@ -34,5 +34,8 @@
     "react-native-svg": "15.12.1",
     "socket.io-client": "^4.8.1"
   },
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "@expo/ngrok": "^4.1.3"
+  }
 }

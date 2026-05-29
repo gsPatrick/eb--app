@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import HistoryEarningsCard from '../components/molecules/HistoryEarningsCard';
 import HistoryOrderCard from '../components/molecules/HistoryOrderCard';
+import NotificationBellButton from '../components/molecules/NotificationBellButton';
 import ScheduleSkeletonList from '../components/molecules/ScheduleSkeletonList';
 import EBText from '../components/atoms/Text';
 import { useRealtime } from '../context/RealtimeContext';
@@ -34,26 +35,31 @@ export default function HistoryScreen({ navigation }) {
   useEffect(() => subscribe('history', refetch), [subscribe, refetch]);
 
   const totalEarned = useMemo(
-    () => (orders || []).reduce((sum, order) => sum + Number(order.totalPrice || 0), 0),
+    () => (orders || []).reduce((sum, order) => sum + Number(order.providerPayoutAmount || order.totalPrice || 0), 0),
     [orders]
   );
 
   const header = useMemo(
     () => (
       <View style={styles.header}>
-        <EBText variant="title" color="brand">
-          {t('history.title')}
-        </EBText>
-        <EBText variant="caption" color="secondary" style={styles.sub}>
-          {t('history.subtitle')}
-        </EBText>
+        <View style={styles.headerRow}>
+          <View style={styles.headerText}>
+            <EBText variant="title" color="brand">
+              {t('history.title')}
+            </EBText>
+            <EBText variant="caption" color="secondary" style={styles.sub}>
+              {t('history.subtitle')}
+            </EBText>
+          </View>
+          <NotificationBellButton onPress={() => navigation.navigate('Notifications')} />
+        </View>
         <HistoryEarningsCard
           total={formatCurrency(totalEarned)}
           orderCount={orders?.length || 0}
         />
       </View>
     ),
-    [t, i18n.language, formatCurrency, totalEarned, orders?.length]
+    [t, i18n.language, formatCurrency, totalEarned, orders?.length, navigation]
   );
 
   if (loading && !orders?.length) {
@@ -99,6 +105,8 @@ const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.bg },
   container: { padding: spacing.xxl, paddingBottom: 100 },
   header: { marginBottom: spacing.md },
+  headerRow: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', gap: spacing.md },
+  headerText: { flex: 1 },
   sub: { marginTop: spacing.xs, marginBottom: spacing.lg },
   empty: { alignItems: 'center', paddingVertical: 48 },
   emptySub: { marginTop: spacing.sm, textAlign: 'center' },

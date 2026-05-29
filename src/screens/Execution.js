@@ -4,6 +4,7 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
+  TextInput,
   View,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -23,12 +24,15 @@ import ExecutionStepSkeleton from '../components/molecules/ExecutionStepSkeleton
 import ExtraServiceRow from '../components/molecules/ExtraServiceRow';
 import PhotoThumbnailGrid from '../components/molecules/PhotoThumbnailGrid';
 import GeofenceAlert from '../components/organisms/GeofenceAlert';
+import LocationRow from '../components/molecules/LocationRow';
 import { useApi } from '../hooks/useApi';
 import { useCamera } from '../hooks/useCamera';
 import { useFormatters } from '../hooks/useFormatters';
 import { useLocation } from '../hooks/useLocation';
 import * as ordersApi from '../api/orders';
+import * as fieldReportsApi from '../api/fieldReports';
 import { isWithinGeofence } from '../utils/geofence';
+import { openDirections } from '../utils/maps';
 import { isNetworkError } from '../utils/network';
 import { enqueueOfflineAction } from '../utils/offlineQueue';
 import { colors, radius, shadows, spacing } from '../theme/variables';
@@ -119,6 +123,10 @@ export default function ExecutionScreen({ route, navigation }) {
   const [submittingCheckOut, setSubmittingCheckOut] = useState(false);
   const [geofenceDistance, setGeofenceDistance] = useState(null);
   const [showGeofence, setShowGeofence] = useState(false);
+  const [reportType, setReportType] = useState('damage');
+  const [reportDescription, setReportDescription] = useState('');
+  const [reportPhotos, setReportPhotos] = useState([]);
+  const [submittingReport, setSubmittingReport] = useState(false);
 
   const geofenceRadius = order?.geofenceRadiusM ?? 200;
 
@@ -319,6 +327,48 @@ export default function ExecutionScreen({ route, navigation }) {
     }
   };
 
+  const handleAddReportPhoto = async (fromGallery) => {
+    try {
+      if (fromGallery) {
+        const picked = await pickPhotos();
+        if (picked?.length) setReportPhotos((prev) => [...prev, ...picked]);
+      } else {
+        const photo = await takePhoto();
+        if (photo) setReportPhotos((prev) => [...prev, photo]);
+      }
+    } catch (err) {
+      Alert.alert(t('common.error'), translateError(err));
+    }
+  };
+
+  const handleSubmitFieldReport = async () => {
+    if (!reportDescription.trim()) {
+      Alert.alert(t('common.error'), t('execution.fieldReportDescriptionRequired'));
+      return;
+    }
+    if (reportPhotos.length < 1) {
+      Alert.alert(t('common.error'), t('execution.fieldReportPhotosRequired'));
+      return;
+    }
+
+    setSubmittingReport(true);
+    try {
+      await fieldReportsApi.create({
+        serviceOrderId: orderId,
+        type: reportType,
+        description: reportDescription.trim(),
+        photos: reportPhotos,
+      });
+      setReportDescription('');
+      setReportPhotos([]);
+      Alert.alert(t('common.success'), t('execution.fieldReportSuccess'));
+    } catch (err) {
+      Alert.alert(t('common.error'), err.message || t('common.error'));
+    } finally {
+      setSubmittingReport(false);
+    }
+  };
+
   const stepContent = useMemo(() => {
     if (step === 1) {
       return (
@@ -389,6 +439,55 @@ export default function ExecutionScreen({ route, navigation }) {
               onToggle={(value) => handleExtraToggle(extra.id, value)}
             />
           ))}
+
+          <View style={styles.reportBlock}>
+            <EBText variant="bodyMedium">{t('execution.fieldReportTitle')}</EBText>
+            <EBText variant="caption" color="secondary">
+              {t('execution.fieldReportHint')}
+            </EBText>
+            <View style={styles.reportTypeRow}>
+              {['damage', 'found', 'lost'].map((type) => (
+                <Pressable
+                  key={type}
+                  style={[styles.reportTypeChip, reportType === type && styles.reportTypeChipActive]}
+                  onPress={() => setReportType(type)}
+                >
+                  <EBText variant="caption" color={reportType === type ? 'inverse' : 'secondary'}>
+                    {t(`execution.fieldReportTypes.${type}`, type)}
+                  </EBText>
+                </Pressable>
+              ))}
+            </View>
+            <TextInput
+              style={styles.reportInput}
+              placeholder={t('execution.fieldReportDescriptionPlaceholder')}
+              value={reportDescription}
+              onChangeText={setReportDescription}
+              multiline
+            />
+            <View style={styles.photoActions}>
+              <Button variant="secondary" onPress={() => handleAddReportPhoto(false)} style={styles.photoBtn}>
+                {t('execution.takePhoto')}
+              </Button>
+              <Button variant="ghost" onPress={() => handleAddReportPhoto(true)} style={styles.photoBtn}>
+                {t('execution.pickGallery')}
+              </Button>
+            </View>
+            <PhotoThumbnailGrid
+              photos={reportPhotos}
+              label={t('execution.fieldReportPhotos')}
+              onRemove={(index) => setReportPhotos((prev) => prev.filter((_, i) => i !== index))}
+            />
+            <Button
+              variant="secondary"
+              loading={submittingReport}
+              onPress={handleSubmitFieldReport}
+              style={styles.actionBtn}
+            >
+              {t('execution.submitFieldReport')}
+            </Button>
+          </View>
+
           <Button fullWidth onPress={() => goToStep(4)} style={styles.actionBtn}>
             {t('common.continue')}
           </Button>
@@ -450,6 +549,10 @@ export default function ExecutionScreen({ route, navigation }) {
     loadingExtras,
     order,
     formatCurrency,
+    reportType,
+    reportDescription,
+    reportPhotos,
+    submittingReport,
   ]);
 
   if (loading && !order) {
@@ -513,9 +616,29 @@ export default function ExecutionScreen({ route, navigation }) {
           </SectionCard>
 
           <SectionCard icon={MapPin} title={t('execution.sections.location')}>
-            <EBText variant="body" style={styles.addressText}>
-              {order.propertyAddress}
-            </EBText>
+            {order.propertyLat != null && order.propertyLong != null ? (
+              <LocationRow
+                title={t('history.propertyLocation')}
+                latitude={order.propertyLat}
+                longitude={order.propertyLong}
+                address={order.propertyAddress}
+              />
+            ) : (
+              <>
+                <EBText variant="body" style={styles.addressText}>
+                  {order.propertyAddress}
+                </EBText>
+                <Pressable
+                  onPress={() => openDirections(order.propertyAddress)}
+                  style={styles.mapBtn}
+                >
+                  <MapPin size={16} color={colors.primary} />
+                  <EBText variant="caption" color="brand">
+                    {t('schedule.openMaps')}
+                  </EBText>
+                </Pressable>
+              </>
+            )}
             <InfoRow label={t('execution.geofenceRadius')} value={`${geofenceRadius} m`} />
             <InfoRow
               label={t('execution.gpsValidation')}
@@ -527,38 +650,46 @@ export default function ExecutionScreen({ route, navigation }) {
               valueColor={checkinCoords ? 'brand' : 'secondary'}
             />
             {checkinCoords ? (
-              <EBText variant="caption" color="secondary" style={styles.gpsCoords}>
-                {t('execution.gpsCoords', {
-                  lat: checkinCoords.lat.toFixed(5),
-                  lng: checkinCoords.lng.toFixed(5),
-                })}
-              </EBText>
+              <LocationRow
+                title={t('history.checkInLocation')}
+                latitude={checkinCoords.lat}
+                longitude={checkinCoords.lng}
+              />
             ) : null}
-            <Pressable
-              onPress={() => openDirections(order.propertyAddress)}
-              style={styles.mapBtn}
-            >
-              <MapPin size={16} color={colors.primary} />
-              <EBText variant="caption" color="brand">
-                {t('schedule.openMaps')}
-              </EBText>
-            </Pressable>
           </SectionCard>
 
           <SectionCard icon={Briefcase} title={t('execution.sections.service')}>
-            <InfoRow label={t('common.client')} value={order.client || '—'} />
             <InfoRow
               label={t('execution.scheduledFor')}
               value={`${formatDate(order.scheduledDate)}${
                 order.scheduledTime ? ` · ${order.scheduledTime}` : ''
               }`}
             />
+            {order.estimatedDurationMinutes ? (
+              <InfoRow
+                label={t('execution.estimatedDuration')}
+                value={`~${Math.max(1, Math.round(order.estimatedDurationMinutes / 60))}h`}
+              />
+            ) : null}
             <InfoRow
-              label={t('common.total')}
-              value={formatCurrency(order.totalPrice)}
+              label={t('execution.providerPayout')}
+              value={formatCurrency(order.providerPayoutAmount || order.totalPrice)}
               valueColor="brand"
             />
           </SectionCard>
+
+          {(order.entryInstructions || order.gateCode || order.doorCode || order.lockboxCode) ? (
+            <SectionCard icon={MapPin} title={t('execution.accessInfo')}>
+              {order.entryInstructions ? (
+                <InfoRow label={t('execution.entryInstructions')} value={order.entryInstructions} />
+              ) : null}
+              {order.gateCode ? <InfoRow label={t('execution.gateCode')} value={order.gateCode} /> : null}
+              {order.doorCode ? <InfoRow label={t('execution.doorCode')} value={order.doorCode} /> : null}
+              {order.lockboxCode ? (
+                <InfoRow label={t('execution.lockboxCode')} value={order.lockboxCode} />
+              ) : null}
+            </SectionCard>
+          ) : null}
 
           <View style={styles.actionPanel}>
             <View style={styles.actionHeader}>
@@ -662,10 +793,6 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'right',
   },
-  gpsCoords: {
-    marginTop: spacing.xs,
-    marginBottom: spacing.sm,
-  },
   mapBtn: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -698,4 +825,30 @@ const styles = StyleSheet.create({
   photoActions: { flexDirection: 'row', gap: spacing.sm, flexWrap: 'wrap' },
   photoBtn: { flex: 1, minWidth: 120 },
   actionBtn: { marginTop: spacing.xl },
+  reportBlock: {
+    marginTop: spacing.xl,
+    paddingTop: spacing.lg,
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
+    gap: spacing.sm,
+  },
+  reportTypeRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
+  reportTypeChip: {
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs,
+    borderRadius: radius.full,
+    backgroundColor: colors.bgMuted,
+  },
+  reportTypeChipActive: {
+    backgroundColor: colors.primary,
+  },
+  reportInput: {
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: radius.md,
+    padding: spacing.sm,
+    minHeight: 80,
+    textAlignVertical: 'top',
+    backgroundColor: colors.background,
+  },
 });

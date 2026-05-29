@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { clearOfflineQueue } from '../utils/offlineQueue';
 
 export const STORAGE_KEYS = {
   TOKEN: 'eb_token',
@@ -7,6 +8,7 @@ export const STORAGE_KEYS = {
   PERMISSIONS: 'eb_permissions_granted',
   LOCALE: 'eb_locale',
   LOCALE_ONBOARDING: 'eb_locale_onboarding_done',
+  AUTH_INTENT_ROLE: 'eb_auth_intent_role',
 };
 
 export async function getToken() {
@@ -27,6 +29,11 @@ export async function saveAuthSession(token, user) {
 
 export async function clearAuthSession() {
   await AsyncStorage.multiRemove([STORAGE_KEYS.TOKEN, STORAGE_KEYS.USER]);
+}
+
+/** Remove sessão, fila offline e outros dados voláteis (mantém idioma e onboarding). */
+export async function clearAppStorage() {
+  await Promise.all([clearAuthSession(), clearOfflineQueue()]);
 }
 
 export async function isOnboardingDone() {
@@ -51,4 +58,16 @@ export async function isLocaleOnboardingDone() {
 
 export async function setLocaleOnboardingDone() {
   await AsyncStorage.setItem(STORAGE_KEYS.LOCALE_ONBOARDING, 'true');
+}
+
+export async function getAuthIntentRole() {
+  return AsyncStorage.getItem(STORAGE_KEYS.AUTH_INTENT_ROLE);
+}
+
+export async function setAuthIntentRole(role) {
+  if (role) {
+    await AsyncStorage.setItem(STORAGE_KEYS.AUTH_INTENT_ROLE, role);
+  } else {
+    await AsyncStorage.removeItem(STORAGE_KEYS.AUTH_INTENT_ROLE);
+  }
 }

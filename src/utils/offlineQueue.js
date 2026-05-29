@@ -40,6 +40,10 @@ export async function processOfflineQueue(processor) {
   return remaining.length;
 }
 
+export async function clearOfflineQueue() {
+  await AsyncStorage.removeItem(QUEUE_KEY);
+}
+
 export async function getLocale() {
   return AsyncStorage.getItem(LOCALE_STORAGE_KEY);
 }

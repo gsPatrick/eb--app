@@ -3,10 +3,12 @@ export function getAuthFlowRoute({
   onboardingDone,
   isAuthenticated,
   permissionsGranted,
+  authIntentRole,
 }) {
   if (!localeOnboardingDone) return 'LanguageOnboarding';
-  if (!permissionsGranted) return 'Permissions';
   if (isAuthenticated) return null;
   if (!onboardingDone) return 'AuthIntro';
+  if (!authIntentRole) return 'AuthChoice';
+  if (authIntentRole === 'provider' && !permissionsGranted) return 'Permissions';
   return 'AuthChoice';
 }

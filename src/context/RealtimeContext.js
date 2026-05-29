@@ -8,7 +8,7 @@ import * as ordersApi from '../api/orders';
 import { useAuth } from './AuthContext';
 import { processOfflineQueue } from '../utils/offlineQueue';
 
-const PROVIDER_EVENTS = new Set(['ORDER_ASSIGNED', 'SERVICE_ORDER_ASSIGNED']);
+const PROVIDER_EVENTS = new Set(['ORDER_ASSIGNED', 'PROVIDER_RECEIPT', 'INBOX_MESSAGE']);
 
 const RealtimeContext = createContext(null);
 
@@ -24,7 +24,7 @@ async function syncQueueItem(item) {
 
 export function RealtimeProvider({ children }) {
   const { t } = useTranslation();
-  const { isAuthenticated, signOut } = useAuth();
+  const { isAuthenticated, isProvider, signOut } = useAuth();
   const [connected, setConnected] = useState(false);
   const [refreshToken, setRefreshToken] = useState(0);
   const listenersRef = useRef(new Map());
@@ -51,7 +51,9 @@ export function RealtimeProvider({ children }) {
       const token = await getToken();
       if (!token) return;
 
-      await processOfflineQueue(syncQueueItem);
+      if (isProvider) {
+        await processOfflineQueue(syncQueueItem);
+      }
 
       socket = io(SOCKET_URL, {
         auth: { token },
@@ -65,7 +67,9 @@ export function RealtimeProvider({ children }) {
       socket.on('notification', (payload) => {
         const type = payload?.type;
 
-        if (PROVIDER_EVENTS.has(type)) {
+        bumpRefresh('notifications');
+
+        if (isProvider && PROVIDER_EVENTS.has(type)) {
           Alert.alert(
             payload.title || t('realtime.newOrderTitle'),
             payload.message || t('realtime.newOrderMessage')
@@ -73,8 +77,43 @@ export function RealtimeProvider({ children }) {
           bumpRefresh('schedule');
         }
 
-        if (type === 'INVENTORY_CRITICAL') {
+        if (type === 'ORDER_COMPLETED') {
+          bumpRefresh('properties');
+          bumpRefresh('history');
+        }
+
+        if (type === 'INVENTORY_CRITICAL' || type === 'INVENTORY_LOW') {
           bumpRefresh('inventory');
+          if (!isProvider) {
+            Alert.alert(
+              payload.title || t('realtime.inventoryCriticalTitle'),
+              payload.message || t('realtime.inventoryCriticalMessage')
+            );
+          }
+        }
+
+        if (type === 'PROVIDER_RECEIPT' && isProvider) {
+          bumpRefresh('history');
+        }
+
+        if (type === 'CLIENT_INVOICE' && !isProvider) {
+          bumpRefresh('orders');
+        }
+
+        if (type === 'INBOX_MESSAGE') {
+          bumpRefresh('messages');
+        }
+
+        if (type === 'CLEANING_REMINDER' && !isProvider) {
+          bumpRefresh('orders');
+          Alert.alert(
+            payload.title || t('realtime.cleaningReminderTitle'),
+            payload.message || t('realtime.cleaningReminderMessage')
+          );
+        }
+
+        if (type === 'FIELD_REPORT') {
+          bumpRefresh('fieldReports');
         }
       });
 
@@ -94,7 +133,7 @@ export function RealtimeProvider({ children }) {
       socket?.disconnect();
       setConnected(false);
     };
-  }, [isAuthenticated, signOut, t, bumpRefresh]);
+  }, [isAuthenticated, isProvider, signOut, t, bumpRefresh]);
 
   const value = useMemo(
     () => ({ connected, refreshToken, bumpRefresh, subscribe }),

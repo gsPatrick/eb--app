@@ -22,10 +22,26 @@ export function mapUser(user) {
   };
 }
 
+export function mapProperty(property) {
+  if (!property) return null;
+  return {
+    id: property.id,
+    name: property.name,
+    address: property.address,
+    description: property.description,
+    status: property.status,
+    photo: resolveMediaUrl(property.metadata?.photo || property.photo),
+    cleanStatus: property.metadata?.cleanStatus || 'scheduled',
+    lastCleaningAt: property.metadata?.lastCleaningAt || null,
+    nextCleaningAt: property.metadata?.nextCleaningAt || null,
+  };
+}
+
 export function mapServiceOrder(order) {
   if (!order) return null;
   const property = order.property || {};
   const client = property.client || order.client || {};
+  const provider = order.provider || {};
 
   return {
     id: order.id,
@@ -35,9 +51,17 @@ export function mapServiceOrder(order) {
     propertyPhoto: resolveMediaUrl(property.metadata?.photo || property.photo),
     propertyLat: property.latitude != null ? Number(property.latitude) : null,
     propertyLong: property.longitude != null ? Number(property.longitude) : null,
+    entryInstructions: property.entryInstructions || property.entry_instructions || '',
+    gateCode: property.gateCode || property.gate_code || '',
+    doorCode: property.doorCode || property.door_code || '',
+    lockboxCode: property.lockboxCode || property.lockbox_code || '',
     client: typeof client === 'string' ? client : client.name || '—',
+    provider: provider.name || order.providerName || null,
     status: order.status,
     scheduledDate: order.scheduledDate,
+    cleaningType: order.cleaningType || null,
+    estimatedDurationMinutes:
+      order.estimatedDurationMinutes != null ? Number(order.estimatedDurationMinutes) : null,
     scheduledTime: order.metadata?.scheduledTime || order.scheduledTime,
     startedAt: order.startedAt,
     finishedAt: order.finishedAt,
@@ -48,6 +72,14 @@ export function mapServiceOrder(order) {
     beforePhotos: (order.beforePhotos || []).map(resolveMediaUrl),
     afterPhotos: (order.afterPhotos || []).map(resolveMediaUrl),
     totalPrice: Number(order.totalPrice || 0),
+    commissionAmount: Number(order.commissionAmount || 0),
+    providerPayoutAmount: Number(order.providerPayoutAmount || 0),
+    clientPaymentStatus: order.clientPaymentStatus || 'pending',
+    providerPaymentStatus: order.providerPaymentStatus || 'pending',
+    invoiceUrl: resolveMediaUrl(order.invoiceUrl),
+    receiptUrl: resolveMediaUrl(order.receiptUrl),
+    receiptNumber: order.receiptNumber || null,
+    invoiceNumber: order.invoiceNumber || null,
     basePrice: Number(order.basePrice || 0),
     extrasTotalPrice: Number(order.extrasTotalPrice || 0),
     extras: (order.extras || []).map((extra) => ({

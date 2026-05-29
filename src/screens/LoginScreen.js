@@ -30,11 +30,12 @@ export default function LoginScreen({ navigation }) {
     setLoading(true);
     setFormError('');
     try {
-      await signIn({ email: email.trim(), password });
-      navigation.replace(permissionsGranted ? 'Main' : 'Permissions');
+      const loggedUser = await signIn({ email: email.trim(), password });
+      const needsPermissions = loggedUser.role === 'provider' && !permissionsGranted;
+      navigation.replace(needsPermissions ? 'Permissions' : 'Main');
     } catch (err) {
-      if (err.code === 'PROVIDER_ONLY') {
-        setFormError(t('auth.login.providerOnly'));
+      if (err.code === 'UNSUPPORTED_ROLE') {
+        setFormError(t('auth.login.unsupportedRole'));
       } else {
         setFormError(err.message || t('auth.login.failed'));
       }

@@ -1,34 +1,37 @@
 import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { CalendarDays, History, User } from 'lucide-react-native';
+import { Building2, History, Package, User, CalendarDays } from 'lucide-react-native';
 import EBText from '../components/atoms/Text';
 import { colors, radius, shadows, spacing } from '../theme/variables';
 
-const TAB_ICONS = {
-  ScheduleTab: CalendarDays,
-  HistoryTab: History,
-  ProfileTab: User,
+const PROVIDER_TABS = {
+  ScheduleTab: { icon: CalendarDays, labelKey: 'tabs.schedule' },
+  HistoryTab: { icon: History, labelKey: 'tabs.history' },
+  ProfileTab: { icon: User, labelKey: 'tabs.profile' },
 };
 
-const TAB_LABEL_KEYS = {
-  ScheduleTab: 'tabs.schedule',
-  HistoryTab: 'tabs.history',
-  ProfileTab: 'tabs.profile',
+const CLIENT_TABS = {
+  PropertiesTab: { icon: Building2, labelKey: 'clientTabs.properties' },
+  HistoryTab: { icon: History, labelKey: 'clientTabs.history' },
+  InventoryTab: { icon: Package, labelKey: 'clientTabs.inventory' },
+  ProfileTab: { icon: User, labelKey: 'clientTabs.profile' },
 };
 
-export default function CustomTabBar({ state, descriptors, navigation }) {
+export default function CustomTabBar({ state, descriptors, navigation, variant = 'provider' }) {
   const { t } = useTranslation();
+  const tabConfig = variant === 'client' ? CLIENT_TABS : PROVIDER_TABS;
 
   return (
     <View style={styles.wrapper}>
       <View style={styles.bar}>
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];
-          const labelKey = TAB_LABEL_KEYS[route.name];
+          const config = tabConfig[route.name];
+          const labelKey = config?.labelKey;
           const label = labelKey ? t(labelKey) : options.title ?? route.name;
           const isFocused = state.index === index;
-          const Icon = TAB_ICONS[route.name] || CalendarDays;
+          const Icon = config?.icon || CalendarDays;
 
           const onPress = () => {
             const event = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
@@ -47,9 +50,11 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
                 style={{
                   color: isFocused ? colors.primary : colors.textMuted,
                   fontWeight: isFocused ? '600' : '400',
-                  fontSize: 11,
+                  fontSize: 10,
                   marginTop: 4,
+                  textAlign: 'center',
                 }}
+                numberOfLines={1}
               >
                 {label}
               </EBText>

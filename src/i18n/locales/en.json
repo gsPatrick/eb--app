@@ -13,12 +13,27 @@
     "yes": "Yes",
     "no": "No"
   },
+  "cleaningTypes": {
+    "deep": "Deep cleaning",
+    "regular": "Regular cleaning",
+    "post_construction": "Post-construction",
+    "move_in": "Move in",
+    "move_out": "Move out",
+    "regular_airbnb": "Regular Airbnb"
+  },
   "tabs": {
     "schedule": "Schedule",
     "history": "History",
     "profile": "Profile"
   },
-  "splash": { "tagline": "Services · Provider" },
+  "splash": { "tagline": "Services · Client & Provider" },
+  "clientTabs": {
+    "properties": "Properties",
+    "orders": "Upcoming",
+    "history": "History",
+    "inventory": "Inventory",
+    "profile": "Profile"
+  },
   "onboarding": {
     "slide1Title": "Precision GPS",
     "slide1Subtitle": "Check-in validated within 200 m of the property. EB Services contract rigor.",
@@ -30,8 +45,9 @@
     "start": "Get started"
   },
   "auth": {
-    "brandBadge": "Mobile app · Provider",
-    "brandTagline": "Field execution with GPS, photos and daily schedule",
+    "brandBadge": "Mobile app · EB Services",
+    "brandTagline": "Client or provider — all on your phone",
+    "dualRoleNote": "Choose whether you are a property owner (client) or service provider.",
     "languageLabel": "Language",
     "providerOnlyNote": "This app is exclusively for EB service providers.",
     "intro": {
@@ -44,7 +60,9 @@
     },
     "choice": {
       "title": "How would you like to continue?",
-      "subtitle": "Sign in to your account or create your provider registration.",
+      "subtitle": "Choose your profile and sign in or create an account.",
+      "clientRole": "I'm a client",
+      "providerRole": "I'm a provider",
       "hasAccount": "I already have an account",
       "createAccount": "I want to register"
     },
@@ -60,7 +78,8 @@
       "providerOnly": "This app is for service providers only.",
       "failed": "Login failed",
       "noAccount": "Don't have an account?",
-      "registerLink": "Register as provider",
+      "unsupportedRole": "This profile cannot access the mobile app. Use a client or provider account.",
+      "registerLink": "Create account",
       "forgotPassword": "Forgot password?"
     },
     "forgotPassword": {
@@ -165,6 +184,13 @@
     "step4Hint": "Finish with result photos and GPS validation.",
     "afterPhotosRequired": "Add at least one after photo.",
     "completeService": "Complete service",
+    "estimatedDuration": "Estimated time",
+    "providerPayout": "Your payout",
+    "accessInfo": "Property access",
+    "entryInstructions": "Instructions",
+    "gateCode": "Gate code",
+    "doorCode": "Door code",
+    "lockboxCode": "Lockbox code",
     "geofenceTitle": "Outside allowed area",
     "geofenceDescription": "You must be within {{radius}} m of the property.",
     "geofenceDistance": "Current distance: {{distance}} m",
@@ -172,7 +198,26 @@
     "checkInSuccess": "Check-in completed",
     "checkOutSuccess": "Service completed",
     "offlineSaved": "No connection",
-    "offlineSavedMessage": "Your data was saved and will sync automatically when signal returns."
+    "offlineSavedMessage": "Your data was saved and will sync automatically when signal returns.",
+    "fieldReportTitle": "Report damage, found or lost items",
+    "fieldReportHint": "Optional — notify admin and client with photos during the cleaning.",
+    "fieldReportDescriptionPlaceholder": "Describe what you found…",
+    "fieldReportDescriptionRequired": "Enter a description for the report.",
+    "fieldReportPhotosRequired": "Add at least one photo to the report.",
+    "fieldReportPhotos": "Report photos",
+    "submitFieldReport": "Submit report",
+    "fieldReportSuccess": "Report sent to admin.",
+    "fieldReportTypes": {
+      "damage": "Damage",
+      "found": "Found",
+      "lost": "Lost"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "empty": "No notifications yet.",
+    "unread": "New",
+    "markAllRead": "Mark all as read"
   },
   "history": {
     "title": "History",
@@ -195,8 +240,8 @@
     "extrasPerformed": "Extra services performed"
   },
   "location": {
-    "coordinates": "Coordinates",
-    "unknownAddress": "Address not identified"
+    "unknownAddress": "Address not identified",
+    "openInMaps": "Open in Maps"
   },
   "inventory": {
     "title": "Field Inventory",
@@ -221,9 +266,92 @@
   "profile": {
     "title": "My profile",
     "role": "EB Services Provider",
+    "clientRole": "EB Services Client",
     "settings": "Settings",
     "inventory": "Field Inventory",
     "logout": "Sign out"
+  },
+  "client": {
+    "properties": {
+      "title": "My properties",
+      "subtitle": "Cleaning status of your properties",
+      "statusClean": "Clean",
+      "statusDirty": "Needs cleaning",
+      "statusScheduled": "Scheduled",
+      "lastCleaning": "Last cleaning",
+      "nextCleaning": "Next cleaning",
+      "emptyTitle": "No properties registered"
+    },
+    "history": {
+      "title": "Service history",
+      "subtitle": "Completed services with photos and details",
+      "providerLabel": "Provider: {{name}}",
+      "emptyTitle": "No completed services yet"
+    },
+    "inventory": {
+      "title": "Home inventory",
+      "subtitle": "Stock levels across your properties",
+      "allProperties": "All",
+      "emptyTitle": "No inventory items"
+    },
+    "contracts": {
+      "title": "My contracts",
+      "subtitle": "View and accept digital contracts",
+      "version": "Version {{version}}",
+      "pending": "Pending acceptance",
+      "acceptedAt": "Accepted on {{date}}",
+      "viewPdf": "View PDF",
+      "accept": "Accept contract",
+      "acceptSuccessTitle": "Contract accepted",
+      "acceptSuccessMessage": "Your acceptance was recorded successfully.",
+      "acceptFailed": "Could not accept the contract.",
+      "noPdf": "PDF not available for this contract.",
+      "emptyTitle": "No contracts available"
+    },
+    "billing": {
+      "title": "Billing",
+      "subtitle": "Summary of completed services",
+      "currentMonth": "This month",
+      "previousMonth": "Previous month",
+      "emptyTitle": "No billing records"
+    },
+    "profile": {
+      "contracts": "My contracts",
+      "billing": "Billing",
+      "messages": "Messages to EB"
+    },
+    "orders": {
+      "title": "Upcoming cleanings",
+      "subtitle": "Request extras up to 24 hours before the scheduled date.",
+      "extrasTitle": "Extra services",
+      "requestedByYou": "Requested",
+      "requestExtra": "Request",
+      "extraRequested": "Extra requested",
+      "extraRequestedMessage": "The extra was added to your order.",
+      "emptyTitle": "No pending cleanings"
+    },
+    "messages": {
+      "title": "Messages to EB",
+      "subtitle": "Contact the admin team directly.",
+      "subject": "Subject",
+      "body": "Message",
+      "sendToAdmin": "Send to admin",
+      "sent": "Message sent",
+      "sentMessage": "The admin team will reply here.",
+      "fromAdmin": "From EB admin",
+      "fromYou": "Sent by you"
+    }
+  },
+  "provider": {
+    "messages": {
+      "title": "Messages to EB",
+      "subtitle": "Contact admin about schedules or issues.",
+      "subject": "Subject",
+      "body": "Message",
+      "sendToAdmin": "Send to admin",
+      "sent": "Message sent",
+      "sentMessage": "Your message was delivered."
+    }
   },
   "settings": {
     "title": "Settings",
@@ -244,7 +372,11 @@
     "newOrderTitle": "New order assigned",
     "newOrderMessage": "A new cleaning was added to your schedule.",
     "sessionEnded": "Session ended",
-    "sessionEndedMessage": "Your account was deactivated. Contact support."
+    "sessionEndedMessage": "Your account was deactivated. Contact support.",
+    "inventoryCriticalTitle": "Critical stock",
+    "inventoryCriticalMessage": "An inventory item reached critical level.",
+    "cleaningReminderTitle": "Cleaning tomorrow",
+    "cleaningReminderMessage": "Would you like to add any extras?"
   },
   "offline": { "pendingSync": "{{count}} action(s) awaiting sync" },
   "errors": {

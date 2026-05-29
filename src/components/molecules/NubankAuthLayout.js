@@ -97,7 +97,7 @@ export default function NubankAuthLayout({
           </Button>
 
           <EBText variant="caption" color="muted" style={styles.providerNote}>
-            {t('auth.providerOnlyNote')}
+            {t('auth.dualRoleNote')}
           </EBText>
         </View>
       </KeyboardAvoidingView>

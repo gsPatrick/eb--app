@@ -18,7 +18,7 @@ const { width } = Dimensions.get('window');
 const SLIDE_META = [
   { id: '1', icon: MapPin, gradient: ['#082567', '#0B3A8C'], titleKey: 'onboarding.slide1Title', subtitleKey: 'onboarding.slide1Subtitle' },
   { id: '2', icon: Camera, gradient: ['#061D4D', '#082567'], titleKey: 'onboarding.slide2Title', subtitleKey: 'onboarding.slide2Subtitle' },
-  { id: '3', icon: ClipboardList, gradient: ['#0B3A8C', '#54CC8B'], titleKey: 'onboarding.slide3Title', subtitleKey: 'onboarding.slide3Subtitle' },
+  { id: '3', icon: ClipboardList, gradient: ['#0B3A8C', '#4F7CFF'], titleKey: 'onboarding.slide3Title', subtitleKey: 'onboarding.slide3Subtitle' },
 ];
 
 export default function OnboardingScreen({ navigation }) {

@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 60,
-    backgroundColor: 'rgba(84, 204, 139, 0.2)',
+    backgroundColor: 'rgba(79, 124, 255, 0.2)',
   },
   row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   label: { opacity: 0.85, letterSpacing: 1, textTransform: 'uppercase', fontSize: 11 },
